@@ -1,28 +1,42 @@
-import './main.scss'
-import {Task} from "../task/Task.tsx";
-import {getTodos} from "../../features/todo.api.ts";
-import React, {useEffect} from 'react';
+import './main.scss';
+import { Task } from "../task/Task.tsx";
+import { getTodos } from "../../features/todo.api.ts";
+import React, { useEffect } from 'react';
 
-type TodoResponseType = {
+export type TodoType = {
+    title?: string;
     id: number;
-    title: string;
-    created: string;
     isDone: boolean;
-}
+};
+
+type filterList = {
+    name: string;
+    length: number;
+};
 
 type MainSectionPropsType = {
-    listLength: number;
-    todos: TodoType[]
-    setTodos: (data: TodoResponseType[]) => void
+    todos: TodoType[];
+    setTodos: (todo: TodoType[]) => void;
 };
-export type TodoType = {
-    title?: string
-    id: number
-    isDone: boolean
-}
 
 export const Main = (props: MainSectionPropsType) => {
-    const filtersList: string[] = ['Все', 'В работе', 'Сделано'];
+    const completedTodos = props.todos.filter(el => el.isDone).length;
+    const inWorkTodos = props.todos.filter(el => !el.isDone).length;
+
+    const filtersList: filterList[] = [
+        {
+            name: 'Все',
+            length: props.todos.length
+        },
+        {
+            name: 'В работе',
+            length: inWorkTodos
+        },
+        {
+            name: 'Сделано',
+            length: completedTodos
+        }
+    ];
 
     useEffect(() => {
         getTodos('all')
@@ -30,20 +44,32 @@ export const Main = (props: MainSectionPropsType) => {
                 props.setTodos(data.data);
             })
             .catch((error) => {
-                console.error('Ы', error);
+                console.error('Ошыыыв', error);
             });
-    }, []);
+    }, [props.setTodos]);
+
+    const changeFilter = (filterName: string) => {
+        if (filterName === 'В работе') {
+            const inWorkTasks = props.todos.filter(task => !task.isDone);
+            props.setTodos(inWorkTasks);
+        } else if (filterName === 'Сделано') {
+            const completedTasks = props.todos.filter(task => task.isDone);
+            props.setTodos(completedTasks);
+        } else {
+            getTodos('all').then((data) => props.setTodos(data.data));
+        }
+    };
+
     return (
         <>
             <ul className='filters'>
                 {filtersList.map((el, index) => (
-                    <li key={index} className='item'>
-                        {el}
-                        {props.listLength}
+                    <li onClick={() => changeFilter(el.name)} key={index} className='item'>
+                        {el.name} ({el.length})
                     </li>
                 ))}
             </ul>
-            <Task setTodos={props.setTodos} todos={props.todos}/>
+            <Task setTodos={props.setTodos} todos={props.todos} />
         </>
     );
 };

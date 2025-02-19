@@ -25,7 +25,7 @@ export const Header = (props: HeaderPropsType) => {
 
     return (
         <header className='header'>
-            <Input value={inputValue} setInputValue={setInputTitle}/>
+            <Input value={inputValue}  onChange={setInputTitle}/>
             <Button
                 reqType='submit'
                 buttonType='add-button'

@@ -6,14 +6,12 @@ import {useState} from "react";
 
 function App() {
     const [todos, setTodos] = useState<TodoType[]>([]);
-  return (
+    return (
       <section style={{display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-          <Header todos={todos} listLength={1} setTodos={setTodos}/>
-          <Main todos={todos} listLength={1} setTodos={setTodos}/>
+          <Header todos={todos} setTodos={setTodos}/>
+          <Main  todos={todos}  setTodos={setTodos}/>
       </section>
-
-
-  )
+    )
 
 }
 
