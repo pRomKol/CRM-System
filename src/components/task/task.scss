@@ -1,0 +1,42 @@
+.task {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+
+.task input[type="checkbox"]:checked {
+  background-color: blueviolet;
+  border-color: blueviolet;
+}
+
+.task input[type="checkbox"]:checked:after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.task input[type="checkbox"]:hover {
+  border-color: blueviolet;
+}
+
+.buttons {
+  display: flex;
+  gap: 5px;
+}
+
