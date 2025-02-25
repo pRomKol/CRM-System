@@ -9,52 +9,47 @@ export type TodoType = {
     isDone: boolean;
 };
 
-type filterList = {
-    name: string;
-    length: number;
-};
+export type InfoType = {
+    all: number;
+    completed: number;
+    inWork: number;
+}
 
 type MainSectionPropsType = {
+    info: InfoType;
     todos: TodoType[];
     setTodos: (todo: TodoType[]) => void;
+    setInfo: (info: InfoType) => void;
 };
 
 export const Main = (props: MainSectionPropsType) => {
-    const completedTodos = props.todos.filter(el => el.isDone).length;
-    const inWorkTodos = props.todos.filter(el => !el.isDone).length;
-
-    const filtersList: filterList[] = [
-        {
-            name: 'Все',
-            length: props.todos.length
-        },
-        {
-            name: 'В работе',
-            length: inWorkTodos
-        },
-        {
-            name: 'Сделано',
-            length: completedTodos
-        }
-    ];
-
     useEffect(() => {
         getTodos('all')
             .then((data) => {
+                props.setInfo(data.info);
                 props.setTodos(data.data);
             })
             .catch((error) => {
-                console.error('Ошыыыв', error);
+                console.error('Ошибка', error);
             });
     }, [props.setTodos]);
 
+    const filtersList = [{
+        name: 'Все',
+        length: props.info.all
+    }, {
+        name: 'В работе',
+        length: props.info.inWork
+    }, {
+        name: 'Сделано',
+        length: props.info.completed
+    }];
+
     const changeFilter = (filterName: string) => {
         if (filterName === 'В работе') {
-            const inWorkTasks = props.todos.filter(task => !task.isDone);
-            props.setTodos(inWorkTasks);
+            getTodos('inWork').then((data) => props.setTodos(data.data));
         } else if (filterName === 'Сделано') {
-            const completedTasks = props.todos.filter(task => task.isDone);
-            props.setTodos(completedTasks);
+            getTodos('completed').then((data) => props.setTodos(data.data));
         } else {
             getTodos('all').then((data) => props.setTodos(data.data));
         }
@@ -69,7 +64,7 @@ export const Main = (props: MainSectionPropsType) => {
                     </li>
                 ))}
             </ul>
-            <Task setTodos={props.setTodos} todos={props.todos} />
+            <Task info={props.info} setInfo={props.setInfo} setTodos={props.setTodos} todos={props.todos} />
         </>
     );
 };

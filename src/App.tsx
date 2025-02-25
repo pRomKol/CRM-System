@@ -1,15 +1,16 @@
 import "./App.css";
 import {Header} from "./components/header/Header.tsx";
-import {Main, TodoType} from "./components/main/Main.tsx";
+import {InfoType, Main, TodoType} from "./components/main/Main.tsx";
 import {useState} from "react";
 
 
 function App() {
     const [todos, setTodos] = useState<TodoType[]>([]);
+    const [info, setInfo] = useState<InfoType>({});
     return (
       <section style={{display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-          <Header todos={todos} setTodos={setTodos}/>
-          <Main  todos={todos}  setTodos={setTodos}/>
+          <Header info={info} setInfo={setInfo} todos={todos} setTodos={setTodos}/>
+          <Main info={info}  setInfo={setInfo}  todos={todos}  setTodos={setTodos}/>
       </section>
     )
 

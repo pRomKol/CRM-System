@@ -2,24 +2,27 @@ import {Button} from "../button/Button.tsx";
 import {Input} from "../input/Input.tsx";
 import './header.scss';
 import React, {useState} from "react";
-import {addTodo} from "../../features/todo.api.ts";
-import {TodoType} from "../main/Main.tsx";
+import {addTodo, getTodos} from "../../features/todo.api.ts";
+import {InfoType, TodoType} from "../main/Main.tsx";
 
 type HeaderPropsType = {
+    info: InfoType
+    setInfo:(info: InfoType)=> void
     todos: TodoType[];
-    setTodos: React.Dispatch<React.SetStateAction<TodoType[]>>;
+    setTodos: (todo: TodoType[])=>void
 };
 
 export const Header = (props: HeaderPropsType) => {
     const [inputValue, setInputTitle] = useState('');
-
     const addTodoHandler = async (isDone: boolean, title: string) => {
         try {
-            const newTodo = await addTodo({isDone, title});
+            await addTodo({isDone, title});
+            const data = await getTodos('all')
+            props.setTodos(data.data)
+            props.setInfo(data.info)
             setInputTitle('');
-            props.setTodos([...props.todos, newTodo]);
         } catch (error) {
-            console.error("Ошибка при добавлении задачи:", error);
+            console.error("Ошибк", error);
         }
     };
 
