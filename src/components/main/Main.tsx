@@ -1,7 +1,7 @@
 import './main.scss';
 import { Task } from "../task/Task.tsx";
 import { getTodos } from "../../features/todo.api.ts";
-import React, { useEffect } from 'react';
+import {useEffect} from 'react';
 
 export type TodoType = {
     title?: string;

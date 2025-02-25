@@ -1,5 +1,5 @@
 import './task.scss';
-import React, {useState} from "react";
+import {useState} from "react";
 import {InfoType, TodoType} from "../main/Main.tsx";
 import {deleteTodo, getTodos, updateTodo} from "../../features/todo.api.ts";
 import {Button} from "../button/Button.tsx";
@@ -9,12 +9,12 @@ type TaskPropsType = {
     setInfo: (info: InfoType) => void
     info: InfoType
     todos: TodoType[];
-    setTodos:(todo: TodoType) => void
+    setTodos:(todo: TodoType[]) => void
 };
 
 export const Task = (props: TaskPropsType) => {
     const [editingId, setEditingId] = useState<number | null>(null);
-    const [editedTitle, setEditedTitle] = useState<string>('');
+    const [editedTitle, setEditedTitle] = useState<string | undefined>('');
     const deleteTodoHandler = async (id: number) => {
         try {
             await deleteTodo(id);
@@ -40,13 +40,10 @@ export const Task = (props: TaskPropsType) => {
         setEditedTitle('')
     }
 
-    const startEditing = (id: number, title: string) => {
+    const startEditing = (id: number, title: string | undefined) => {
         setEditingId(id);
         setEditedTitle(title);
     };
-
-
-
     return (
         <ul className="task-list">
             {props.todos.map((todo) => (

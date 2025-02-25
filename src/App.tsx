@@ -6,7 +6,7 @@ import {useState} from "react";
 
 function App() {
     const [todos, setTodos] = useState<TodoType[]>([]);
-    const [info, setInfo] = useState<InfoType>({});
+    const [info, setInfo] = useState<InfoType>({all: 0, inWork: 0, completed: 0});
     return (
       <section style={{display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
           <Header info={info} setInfo={setInfo} todos={todos} setTodos={setTodos}/>

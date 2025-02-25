@@ -3,7 +3,7 @@ import {ReactNode} from "react";
 type ButtonPropsType = {
     buttonType: string
     title: string | ReactNode
-    onClick:(...args) => void
+    onClick:() => void
     reqType?: 'submit'
     form?:string
 }
