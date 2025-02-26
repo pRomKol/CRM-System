@@ -2,7 +2,7 @@ import {Button} from "../button/Button.tsx";
 import {Input} from "../input/Input.tsx";
 import './header.scss';
 import {useState} from "react";
-import {addTodo, getTodos} from "../../features/todo.api.ts";
+import {addTodo} from "../../features/todo.api.ts";
 
 
 type HeaderPropsType = {

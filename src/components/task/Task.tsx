@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Input} from "../input/Input.tsx";
 import {Button} from "../button/Button.tsx";
 import {deleteTodo, updateTodo} from "../../features/todo.api.ts";
