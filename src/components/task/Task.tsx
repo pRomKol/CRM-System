@@ -45,7 +45,6 @@ export const Task = (props: TaskPropsType) => {
                     <Input
                         value={editedTitle}
                         onChange={setEditedTitle}
-                        onBlur={() => refactorTodoHandler(props.id, editedTitle, props.isDone,)}
                     />
                 ) : (
                     <h3>{props.title}</h3>
