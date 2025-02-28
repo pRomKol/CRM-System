@@ -9,9 +9,7 @@ type InputPropsType = {
 
 export const Input = (props: InputPropsType) => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
-    const cleanedValue = value.replace(/\s+/g, ' ');
-    props.onChange(cleanedValue);
+    props.onChange(e.currentTarget.value);
   };
 
   return (

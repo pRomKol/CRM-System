@@ -24,7 +24,7 @@ function App() {
     return (
       <section style={{display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
           <Header getTodosByCurrentFilter={getTodosByCurrentFilter} />
-          <Filters info={info} setTodos={setTodos} setCurrentFilter={setCurrentFilter}/>
+          <Filters currentFilter={currentFilter} info={info} setTodos={setTodos} setCurrentFilter={setCurrentFilter}/>
           <Main getTodosByCurrentFilter={getTodosByCurrentFilter} todos={todos}/>
       </section>
     )
