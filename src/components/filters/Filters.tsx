@@ -1,43 +1,54 @@
-import {getTodos} from "../../features/todo.api.ts";
-import {InfoType, TodoType} from "../main/Main.tsx";
-import {FiltersType} from "../../App.tsx";
+import { getTodos } from "../../features/todo.api.ts";
+import { InfoType, TodoType } from "../main/Main.tsx";
+import { FiltersType } from "../../App.tsx";
+import "./filters.scss";
 
 type FilterPropsType = {
-    info: InfoType
-    setTodos:(todo: TodoType[]) => void
-    setCurrentFilter:(filter: FiltersType) => void
+    info: InfoType;
+    setTodos: (todo: TodoType[]) => void;
+    setCurrentFilter: (filter: FiltersType) => void;
+    currentFilter: FiltersType;
+};
+type FiltersListType = {
+    name: string;
+    filterName: FiltersType;
+    length: number
 }
-export const Filters = ( props: FilterPropsType) => {
-    const filtersList = [{
-        name: 'Все',
-        length: props.info.all
-    }, {
-        name: 'В работе',
-        length: props.info.inWork
-    }, {
-        name: 'Сделано',
-        length: props.info.completed
-    }];
-    const changeFilter = (filterName: string) => {
-        if (filterName === 'В работе') {
-            getTodos('inWork').then((data) => props.setTodos(data.data));
-            props.setCurrentFilter('inWork')
-        } else if (filterName === 'Сделано') {
-            getTodos('completed').then((data) => props.setTodos(data.data));
-            props.setCurrentFilter('completed')
-        } else {
-            getTodos('all').then((data) => props.setTodos(data.data));
-            props.setCurrentFilter('all')
-        }
+export const Filters = (props: FilterPropsType) => {
+    const filtersList: FiltersListType[] = [
+        {
+            name: 'Все',
+            filterName: 'all',
+            length: props.info.all,
+        },
+        {
+            name: 'В работе',
+            filterName: 'inWork',
+            length: props.info.inWork,
+        },
+        {
+            name: 'Сделано',
+            filterName: 'completed',
+            length: props.info.completed,
+        },
+    ];
+
+    const changeFilter = (filterName: FiltersType) => {
+        getTodos(filterName).then((data) => props.setTodos(data.data));
+        props.setCurrentFilter(filterName);
     };
+
     return (
         <ul className='filters'>
             {filtersList.map((el, index) => (
-                <li onClick={() => changeFilter(el.name)} key={index} className='item'>
+                <li
+                    key={index}
+                    onClick={() => changeFilter(el.filterName)}
+                    className={`${props.currentFilter === el.filterName ? 'active' : ''}`}
+                >
                     {el.name} ({el.length})
                 </li>
             ))}
         </ul>
-    )
-
-}
+    );
+};

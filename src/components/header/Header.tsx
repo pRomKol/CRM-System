@@ -17,7 +17,10 @@ export const Header = (props: HeaderPropsType) => {
             if(title.length > 30){
                 setError('МНОГА БУКАВ')
                 return
-            }else {
+            }else if(title.length < 1) {
+                setError('ТЕПЕРЬ МАЛА БУКАВ')
+            }
+            else {
                 await addTodo({isDone, title});
                 props.getTodosByCurrentFilter()
                 setInputTitle('');
