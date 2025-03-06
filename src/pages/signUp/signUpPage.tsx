@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Form, Input } from 'antd';
 import { signUp } from "../../features/auth.api.ts";
-import {Link, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 
 const layout = {
     labelCol: { span: 8 },
@@ -34,9 +34,9 @@ export const SignUpPage: React.FC = () => {
             username: values.username,
         };
         try {
-            const data = await signUp(formData)
+           await signUp(formData)
             navigate('/login')
-        } catch (error) {
+        } catch (error: any) {
            setError(error.response.data)
 
 

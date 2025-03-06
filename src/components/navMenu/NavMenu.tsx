@@ -1,11 +1,10 @@
-import React from 'react';
 import { Menu } from 'antd';
 import { Link, useLocation } from 'react-router';
 
 export const NavMenu = () => {
     const location = useLocation();
     return (
-        <Menu theme="dark" selectedKeys={location.pathname}>
+        <Menu theme="dark" selectedKeys={[location.pathname]}>
             <Menu.Item key="/">
                 <Link to="/">Profile</Link>
             </Menu.Item>

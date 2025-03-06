@@ -17,7 +17,7 @@ export const LoginPage: React.FC = () => {
             await signIn({ login: values.login, password: values.password });
             navigate('/');
         }
-        catch (erorrrrrrrrrrrrrrr){
+        catch (erorrrrrrrrrrrrrrr: any){
             console.log(erorrrrrrrrrrrrrrr)
             if(erorrrrrrrrrrrrrrr.response.status === 401){
                 setError('НЕВЕРНЫЙ логин или проль')

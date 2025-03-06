@@ -77,7 +77,6 @@ export const Task = (props: TaskPropsType) => {
                         />
                     ) : editingId === props.id ? null : (
                         <Button
-                            buttonType='refactor'
                             title='+'
                             onClick={() => startEditing(props.id, props.title)}
                         />
