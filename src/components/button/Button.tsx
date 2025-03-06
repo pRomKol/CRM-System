@@ -1,11 +1,9 @@
 import './button.scss'
-import {ReactNode} from "react";
+import {Button as AntButton} from "antd";
+
 type ButtonPropsType = {
-    buttonType: string
-    title: string | ReactNode
+    title: string
     onClick:() => void
-    reqType?: 'submit'
-    form?:string
 }
 
 export const Button = (props: ButtonPropsType) => {
@@ -13,16 +11,10 @@ export const Button = (props: ButtonPropsType) => {
         props.onClick()
     }
   return (
-    <button type={props.reqType} onClick={onClickHandler}
-      className={
-        props.buttonType === "delete"
-          ? "delete-button"
-          : props.buttonType === "refactor"
-            ? "refactor-button"
-            : "add-button"
-      }
-    >
-        {props.title}
-    </button>
+      <AntButton
+          onClick={onClickHandler}
+      >
+          {props.title}
+      </AntButton>
   );
 };

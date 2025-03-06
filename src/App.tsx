@@ -1,34 +1,31 @@
 import "./App.css";
-import {Header} from "./components/header/Header.tsx";
-import {InfoType, Main, TodoType} from "./components/main/Main.tsx";
-import {useEffect, useState} from "react";
-import {getTodos} from "./features/todo.api.ts";
-import {Filters} from "./components/filters/Filters.tsx";
+import { TodoList } from "./pages/todoList/TodoList.tsx";
+import { Route, Routes } from "react-router";
+import {NavMenu} from "./components/navMenu/NavMenu.tsx";
+import {LoginPage} from "./pages/login/LoginPage.tsx";
+import {SignUpPage} from "./pages/signUp/signUpPage.tsx";
+import {useState} from "react";
+import {Profile} from "./pages/profile/Profile.tsx";
+import {ForgotPassword} from "./pages/forgotPassword/ForgotPassword.tsx";
 
-export type FiltersType = 'inWork' | 'all' | 'completed'
 
 function App() {
-    const [todos, setTodos] = useState<TodoType[]>([]);
-    const [info, setInfo] = useState<InfoType>({all: 0, inWork: 0, completed: 0});
-    const [currentFilter, setCurrentFilter] = useState<FiltersType>('all')
-    const getTodosByCurrentFilter = () => {
-        getTodos(currentFilter)
-            .then((data) => {
-                setInfo(data.info);
-                setTodos(data.data);
-            })
-            .catch((error) => {
-                console.error('Ошибка', error);
-            }); }
-    useEffect( ()=> getTodosByCurrentFilter(), []);
     return (
-      <section style={{display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-          <Header getTodosByCurrentFilter={getTodosByCurrentFilter} />
-          <Filters currentFilter={currentFilter} info={info} setTodos={setTodos} setCurrentFilter={setCurrentFilter}/>
-          <Main getTodosByCurrentFilter={getTodosByCurrentFilter} todos={todos}/>
-      </section>
-    )
-
+        <div style={{ display: "flex", height: "100vh" }}>
+            <div style={{ width: "250px", backgroundColor: "#f4f4f4", padding: "20px" }}>
+                <NavMenu />
+            </div>
+            <div style={{ flex: 1, padding: "20px" }}>
+                <Routes>
+                    <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+                    <Route path='/login' element={<LoginPage/>}/>
+                    <Route path='/signup' element={<SignUpPage/>}/>
+                    <Route path='/' element={<Profile />} />
+                    <Route path='/todo' element={<TodoList />}/>
+                </Routes>
+            </div>
+        </div>
+    );
 }
 
 export default App;

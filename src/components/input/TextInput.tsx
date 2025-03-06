@@ -1,5 +1,6 @@
-import './input.scss';
 import React, { ChangeEvent } from "react";
+import { Input } from 'antd';
+import './input.scss';
 
 type InputPropsType = {
   value: string | undefined;
@@ -7,13 +8,13 @@ type InputPropsType = {
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export const Input = (props: InputPropsType) => {
+export const TextInput = (props: InputPropsType) => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     props.onChange(e.currentTarget.value);
   };
 
   return (
-      <input
+      <Input
           value={props.value || ""}
           onChange={onChangeHandler}
           onKeyPress={props.onKeyPress}

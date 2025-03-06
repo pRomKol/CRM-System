@@ -1,7 +1,8 @@
 import {useState} from 'react';
-import {Input} from "../input/Input.tsx";
+import {TextInput} from "../input/TextInput.tsx";
 import {Button} from "../button/Button.tsx";
 import {deleteTodo, updateTodo} from "../../features/todo.api.ts";
+import './task.styles.scss'
 
 
 type TaskPropsType = {
@@ -43,7 +44,7 @@ export const Task = (props: TaskPropsType) => {
                 <div onDoubleClick={() => startEditing(props.id, props.title)}>
                     {editingId === props.id ? (
                         <>
-                            <Input
+                            <TextInput
                                 value={editedTitle}
                                 onChange={setEditedTitle}
                             />
@@ -56,7 +57,6 @@ export const Task = (props: TaskPropsType) => {
                 <div className="buttons">
                     {!editingId ? (
                         <Button
-                            buttonType='refactor'
                             title='+'
                             onClick={() => startEditing(props.id, props.title)}
                         />
@@ -68,13 +68,13 @@ export const Task = (props: TaskPropsType) => {
                     }
                     {editingId === props.id ?
                         <>
-                            <Button buttonType='refactor' title='save'
+                            <Button title='save'
                                     onClick={() => refactorTodoHandler(props.id, editedTitle, props.isDone)}/>
-                            <Button buttonType='refactor' title='cancel'
+                            <Button title='cancel'
                                     onClick={() => refactorTodoHandler(props.id, props.title, props.isDone)}/>
                         </> : null}
 
-                    <Button buttonType='delete' title='X' onClick={() => deleteTodoHandler(props.id)}/>
+                    <Button title='X' onClick={() => deleteTodoHandler(props.id)}/>
                 </div>
             </li>
         </>

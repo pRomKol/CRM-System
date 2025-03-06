@@ -1,8 +1,8 @@
 import {Button} from "../button/Button.tsx";
-import {Input} from "../input/Input.tsx";
 import './header.scss';
 import {useState} from "react";
 import {addTodo} from "../../features/todo.api.ts";
+import {TextInput} from "../input/TextInput.tsx";
 
 
 type HeaderPropsType = {
@@ -35,10 +35,8 @@ const onChangeHandler = (title: string) => {
 }
     return (
         <header className='header'>
-            <Input value={inputValue}  onChange={onChangeHandler}/>
+            <TextInput value={inputValue}  onChange={onChangeHandler}/>
             <Button
-                reqType='submit'
-                buttonType='add-button'
                 title='Add'
                 onClick={() => addTodoHandler(false, inputValue)}
             />

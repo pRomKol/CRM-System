@@ -1,20 +1,23 @@
-import { getTodos } from "../../features/todo.api.ts";
-import { InfoType, TodoType } from "../main/Main.tsx";
-import { FiltersType } from "../../App.tsx";
+import { useQueryClient } from 'react-query';
+import {InfoType } from "../main/Main.tsx";
 import "./filters.scss";
+export type FiltersType = 'inWork' | 'all' | 'completed';
 
 type FilterPropsType = {
     info: InfoType;
-    setTodos: (todo: TodoType[]) => void;
     setCurrentFilter: (filter: FiltersType) => void;
     currentFilter: FiltersType;
 };
-type FiltersListType = {
+
+export type FiltersListType = {
     name: string;
     filterName: FiltersType;
-    length: number
-}
+    length: number;
+};
+
 export const Filters = (props: FilterPropsType) => {
+    const queryClient = useQueryClient();
+
     const filtersList: FiltersListType[] = [
         {
             name: 'Все',
@@ -34,8 +37,8 @@ export const Filters = (props: FilterPropsType) => {
     ];
 
     const changeFilter = (filterName: FiltersType) => {
-        getTodos(filterName).then((data) => props.setTodos(data.data));
-        props.setCurrentFilter(filterName);
+        props.setCurrentFilter(filterName); // Устанавливаем текущий фильтр
+        queryClient.invalidateQueries(['todos', filterName]); // Инвалидируем кэш для нового фильтра
     };
 
     return (
