@@ -4,13 +4,7 @@ export const Profile = () => {
         <>
             <ul style={{fontSize: 30}}>
                 <li>
-
-                </li>
-                <li>
-
-                </li>
-                <li>
-
+                    ПРИВЕТ
                 </li>
             </ul>
 
