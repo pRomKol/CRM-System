@@ -27,7 +27,7 @@ export const Header = (props: HeaderPropsType) => {
                 setError(null);
             }
         } catch (error) {
-            console.error("Ошибка при добавлении задачи", error);
+            console.error("NET", error);
         }
     };
 
@@ -41,7 +41,7 @@ export const Header = (props: HeaderPropsType) => {
             <Input
                 value={inputValue}
                 onChange={onChangeHandler}
-                placeholder="Введите название задачи"
+                placeholder="Сюда"
             />
             <Button
                 title='Add'
