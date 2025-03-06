@@ -1,46 +1,53 @@
-import {Button} from "../button/Button.tsx";
+import { Button } from "../button/Button.tsx";
 import './header.scss';
-import {useState} from "react";
-import {addTodo} from "../../features/todo.api.ts";
-import {TextInput} from "../input/TextInput.tsx";
-
+import { ChangeEvent, useState } from "react";
+import { addTodo } from "../../features/todo.api.ts";
+import { Input } from "antd";
 
 type HeaderPropsType = {
-    getTodosByCurrentFilter:() => void
+    getTodosByCurrentFilter: () => void;
 };
 
 export const Header = (props: HeaderPropsType) => {
     const [inputValue, setInputTitle] = useState<string>('');
-    const [error, setError] = useState<null | string>(null)
+    const [error, setError] = useState<string | null>(null);
+
     const addTodoHandler = async (isDone: boolean, title: string) => {
         try {
-            if(title.length > 30){
-                setError('МНОГА БУКАВ')
-                return
-            }else if(title.length < 1) {
-                setError('ТЕПЕРЬ МАЛА БУКАВ')
-            }
-            else {
-                await addTodo({isDone, title});
-                props.getTodosByCurrentFilter()
+            if (title.length < 2) {
+                setError('МАЛА БУКАВ');
+                return;
+            } else if (title.length > 64) {
+                setError('МНОГА БУКАВ (>64)');
+                return;
+            } else {
+                await addTodo({ isDone, title });
+                props.getTodosByCurrentFilter();
                 setInputTitle('');
+                setError(null);
             }
         } catch (error) {
-            console.error("Ошибк", error);
+            console.error("Ошибка при добавлении задачи", error);
         }
     };
-const onChangeHandler = (title: string) => {
-    setInputTitle(title)
-    setError(null)
-}
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputTitle(e.target.value);
+        setError(null);
+    };
+
     return (
         <header className='header'>
-            <TextInput value={inputValue}  onChange={onChangeHandler}/>
+            <Input
+                value={inputValue}
+                onChange={onChangeHandler}
+                placeholder="Введите название задачи"
+            />
             <Button
                 title='Add'
                 onClick={() => addTodoHandler(false, inputValue)}
             />
-            {error && <div>{error}</div>}
+            {error && <div className="error-message">{error}</div>}
         </header>
     );
 };

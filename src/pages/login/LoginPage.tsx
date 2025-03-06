@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import {signIn} from "../../features/auth.api.ts";
 import {Link, useNavigate} from "react-router";
 
@@ -29,6 +29,7 @@ export const LoginPage: React.FC = () => {
     };
     return (
         <>
+            {error && <div style={{color: 'red'}}>{error}</div>}
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
@@ -60,11 +61,10 @@ export const LoginPage: React.FC = () => {
                     </Button>
                 </Form.Item>
                 <Button>
-                    <Link to='signUp'>Зарегать</Link>
+                    <Link to='/signUp'>Зарегать</Link>
                 </Button>
             </Form>
-            <Link to='/forgotPassword'>ЗАБЫЛ ПАРОЛЬ</Link>
-            {error && <div>{error}</div>}
+
         </>
 
     );
