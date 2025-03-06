@@ -14,7 +14,6 @@ export async function updateTodo(id: number, todoRequest: any):Promise<any>  {
 
 export async function deleteTodo(id: number):Promise<any> {
     const response = await axios.delete(`${baseURL}/todos/${id}`);
-    console.log('зпрос на удаление')
     return response.data;
 }
 export async function getTodos(filter = 'all'):Promise<any> {
