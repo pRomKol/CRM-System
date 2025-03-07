@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { useQuery } from 'react-query';
 import { Header } from "../../components/header/Header.tsx";
 import { Filters, FiltersType } from "../../components/filters/Filters.tsx";
