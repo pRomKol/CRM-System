@@ -47,7 +47,6 @@ export const LoginPage: React.FC = () => {
                 >
                     <Input />
                 </Form.Item>
-
                 <Form.Item<FieldType>
                     label="Password"
                     name="password"
