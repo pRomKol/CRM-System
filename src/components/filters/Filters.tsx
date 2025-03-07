@@ -1,6 +1,7 @@
 import { useQueryClient } from 'react-query';
 import {InfoType } from "../main/Main.tsx";
 import "./filters.scss";
+
 export type FiltersType = 'inWork' | 'all' | 'completed';
 
 type FilterPropsType = {
