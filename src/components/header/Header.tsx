@@ -1,8 +1,8 @@
-import { Button } from "../button/Button.tsx";
 import './header.scss';
 import { ChangeEvent, useState } from "react";
 import { addTodo } from "../../features/todo.api.ts";
-import { Input } from "antd";
+import {Button, Input} from "antd";
+import {Link} from "react-router";
 
 type HeaderPropsType = {
     getTodosByCurrentFilter: () => void;
@@ -43,11 +43,19 @@ export const Header = (props: HeaderPropsType) => {
                 onChange={onChangeHandler}
                 placeholder="Сюда"
             />
+
             <Button
-                title='Add'
                 onClick={() => addTodoHandler(false, inputValue)}
-            />
+            >
+                ДОБАВИТЬ
+            </Button>
+
             {error && <div className="error-message">{error}</div>}
+            <Button>
+                <Link to={'/login'}>
+                Куда мнее пихать? ЧТо значит может? НУ типо ВОЙТИ
+            </Link>
+            </Button>
         </header>
     );
 };

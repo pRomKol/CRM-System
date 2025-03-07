@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useQuery } from 'react-query';
 import { Header } from "../../components/header/Header.tsx";
 import { Filters, FiltersType } from "../../components/filters/Filters.tsx";
@@ -6,7 +6,7 @@ import { Main } from "../../components/main/Main.tsx";
 import { getTodos } from "../../features/todo.api.ts";
 
 export const TodoList = () => {
-    const [currentFilter, setCurrentFilter] = React.useState<FiltersType>('all');
+    const [currentFilter, setCurrentFilter] = useState<FiltersType>('all');
 
     const { data, error, isLoading, refetch } = useQuery(
         ['todos', currentFilter],

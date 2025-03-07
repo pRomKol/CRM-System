@@ -37,8 +37,8 @@ export const Filters = (props: FilterPropsType) => {
     ];
 
     const changeFilter = (filterName: FiltersType) => {
-        props.setCurrentFilter(filterName); // Устанавливаем текущий фильтр
-        queryClient.invalidateQueries(['todos', filterName]); // Инвалидируем кэш для нового фильтра
+        props.setCurrentFilter(filterName);
+        queryClient.invalidateQueries(['todos', filterName]);
     };
 
     return (
