@@ -2,7 +2,7 @@ import './header.scss';
 import { ChangeEvent, useState } from "react";
 import { addTodo } from "../../features/todo.api.ts";
 import {Button, Input} from "antd";
-import {Link} from "react-router";
+
 
 type HeaderPropsType = {
     getTodosByCurrentFilter: () => void;
@@ -51,11 +51,7 @@ export const Header = (props: HeaderPropsType) => {
             </Button>
 
             {error && <div className="error-message">{error}</div>}
-            <Button>
-                <Link to={'/login'}>
-                Куда мнее пихать? ЧТо значит может? НУ типо ВОЙТИ
-            </Link>
-            </Button>
+
         </header>
     );
 };
