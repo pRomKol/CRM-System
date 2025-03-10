@@ -34,7 +34,7 @@ export async function signUp(authData: any): Promise<AuthResponse> {
  export async function refreshAccessToken(): Promise<void> {
     const refreshToken = localStorage.getItem('refreshToken')
      try {
-         const response = await axios.post(`${baseURL}/auth/refresh`, {refreshToken})
+         const response = await axios.post(`${baseURL}/auth/refresh`, {refreshToken},)
          localStorage.setItem('refreshToken', response.data.refreshToken)
          localStorage.setItem('accessToken', response.data.accessToken)
     }

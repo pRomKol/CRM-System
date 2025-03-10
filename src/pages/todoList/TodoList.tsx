@@ -4,6 +4,7 @@ import { Header } from "../../components/header/Header.tsx";
 import { Filters, FiltersType } from "../../components/filters/Filters.tsx";
 import { Main } from "../../components/main/Main.tsx";
 import { getTodos } from "../../features/todo.api.ts";
+import {Link} from "react-router";
 
 export const TodoList = () => {
     const [currentFilter, setCurrentFilter] = useState<FiltersType>('all');
@@ -30,6 +31,7 @@ export const TodoList = () => {
                 />
                 <Main getTodosByCurrentFilter={refetch}
                       todos={data?.data} />
+                <Link to='/login'>qwrefegtwef</Link>
             </div>
     );
 };

@@ -11,7 +11,7 @@ type TasksListPropsType = {
 export const TasksList = (props: TasksListPropsType) => {
 return (
         <ul className="task-list">
-            {props.todos.map((todo) => (
+            {props.todos.map((todo, index) => (
                 <Task
                     id={todo.id}
                     isDone={todo.isDone}
