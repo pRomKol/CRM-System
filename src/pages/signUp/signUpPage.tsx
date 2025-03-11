@@ -21,11 +21,18 @@ const validateMessages = {
         mismatch: '${label} недопустимо!',
     },
 };
+type ValuesType = {
+    email: string;
+    login: string;
+    password: string;
+    phone: string;
+    username: string;
+}
 
 export const SignUpPage: React.FC = () => {
     const [error, setError] = useState<null | string>(null)
     const navigate = useNavigate()
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: ValuesType) => {
         const formData = {
             email: values.email,
             login: values.login,
@@ -42,11 +49,9 @@ export const SignUpPage: React.FC = () => {
 
         }
     };
-
     return (
         <>
             <Form
-                {...layout}
                 name="registration-form"
                 onFinish={onFinish}
                 style={{ maxWidth: 600 }}
