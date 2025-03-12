@@ -5,14 +5,8 @@ export type Todo = {
     created: string;
 };
 
-export type MetaResponse<T, N> = {
-    data: T[]
-    info?: N
-    meta: {
-        totalAmount: number
-    }
-}
-interface Info {
+
+export type Info = {
     all: number
     completed: number
     inWork: number

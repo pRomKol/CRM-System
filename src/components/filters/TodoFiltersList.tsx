@@ -1,7 +1,8 @@
 import { useQueryClient } from 'react-query';
 import "./filters.scss";
-import {Info} from "../../types/todos.ts";
+
 import {Filters, FiltersList} from "../../types/filters.ts";
+import {Info} from "../../types/todos.ts";
 
 
 type FilterProps = {
@@ -9,8 +10,6 @@ type FilterProps = {
     setCurrentFilter: (filter: Filters) => void;
     currentFilter: Filters;
 };
-
-
 
 export const TodoFiltersList = (props: FilterProps) => {
     const queryClient = useQueryClient();
