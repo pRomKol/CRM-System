@@ -12,8 +12,9 @@ type TasksListProps = {
 export const TasksList = (props: TasksListProps) => {
 return (
         <ul className="task-list">
-            {props.todos.map((todo, index) => (
+            {props.todos.map((todo) => (
                 <Task
+                    key={todo.id}
                     id={todo.id}
                     isDone={todo.isDone}
                     title={todo.title}

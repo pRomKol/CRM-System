@@ -38,7 +38,7 @@ function App() {
             <div style={{ flex: 1, padding: "20px" }}>
                 <Routes>
                     {routs.map((el, index)=>(
-                        <Route ket={index} path={el.path} element={el.element}/>
+                        <Route key={index} path={el.path} element={el.element}/>
                     ))}
                 </Routes>
             </div>

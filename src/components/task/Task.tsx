@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import {useState} from 'react';
 import { deleteTodo, updateTodo } from "../../api/todo.api.ts";
 import './task.styles.scss';
 import { Button, Checkbox, CheckboxProps, Form, Input, notification } from "antd";
