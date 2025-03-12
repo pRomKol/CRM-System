@@ -1,7 +1,6 @@
 import "./App.css";
 import {TodoList} from "./pages/todoList/TodoList.tsx";
 import {Route, Routes} from "react-router";
-
 import {LoginPage} from "./pages/login/LoginPage.tsx";
 import {SignUpPage} from "./pages/signUp/signUpPage.tsx";
 import {Profile} from "./pages/profile/Profile.tsx";
@@ -12,11 +11,6 @@ type Path = {
     path: string
     element: React.ReactNode
 }
-
-function NavMenu() {
-    return null;
-}
-
 function App() {
     const routs: Path[] = [
         {
