@@ -1,5 +1,4 @@
 export const Profile = () => {
-
     return (
         <>
             <ul style={{fontSize: 30}}>
