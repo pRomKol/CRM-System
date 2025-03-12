@@ -14,10 +14,10 @@ export const TodoList = () => {
         ['todos', currentFilter],
         () => getTodos(currentFilter),
         {
-            onError: () => {
+            onError: (error) => {
                 notification.error({
                     message: 'Error',
-                    description: 'Не удалось обновть задачу',
+                    description: error.message,
                 });
             },
             refetchInterval: 5000,
