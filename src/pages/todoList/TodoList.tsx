@@ -1,37 +1,45 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { Header } from "../../components/header/Header.tsx";
-import { Filters, FiltersType } from "../../components/filters/Filters.tsx";
-import { Main } from "../../components/main/Main.tsx";
-import { getTodos } from "../../features/todo.api.ts";
-import {Link} from "react-router";
+import { AddTask } from "../../components/addTask/AddTask.tsx";
+import { TodoContent } from "../../components/todoContent/TodoContent.tsx";
+import { getTodos } from "../../api/todo.api.ts";
+import { Filters } from "../../types/filters.ts";
+import { TodoFiltersList } from "../../components/filters/TodoFiltersList.tsx";
+import { notification } from "antd";
 
 export const TodoList = () => {
-    const [currentFilter, setCurrentFilter] = useState<FiltersType>('all');
+    const [currentFilter, setCurrentFilter] = useState<Filters>('all');
 
-    const { data, error, isLoading, refetch } = useQuery(
+    const { data, isLoading, refetch } = useQuery(
         ['todos', currentFilter],
         () => getTodos(currentFilter),
         {
             onError: () => {
-                console.error('не пойдет', error);
+                notification.error({
+                    message: 'Error',
+                    description: 'Не удалось обновть задачу',
+                });
             },
             refetchInterval: 5000,
         }
     );
 
+    if (isLoading) {
+        return <div>'Loader component'</div>;
+    }
+
     return (
-        isLoading ? <div>КРУТИЛКА НА ВСЕ ЛИЦО</div> :
-            <div>
-                <Header getTodosByCurrentFilter={refetch} />
-                <Filters
-                    currentFilter={currentFilter}
-                    info={data?.info}
-                    setCurrentFilter={setCurrentFilter}
-                />
-                <Main getTodosByCurrentFilter={refetch}
-                      todos={data?.data} />
-                <Link to='/login'>qwrefegtwef</Link>
-            </div>
+        <div>
+            <AddTask getTodosByCurrentFilter={refetch} />
+            <TodoFiltersList
+                currentFilter={currentFilter}
+                info={data.info}
+                setCurrentFilter={setCurrentFilter}
+            />
+            <TodoContent
+                getTodosByCurrentFilter={refetch}
+                todos={data.data}
+            />
+        </div>
     );
 };

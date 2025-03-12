@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
-import {signIn} from "../../features/auth.api.ts";
+import {signIn} from "../../api/auth.api.ts";
 import {Link, useNavigate} from "react-router";
 
 export type FieldType = {

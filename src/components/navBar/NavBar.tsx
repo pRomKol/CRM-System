@@ -1,7 +1,7 @@
 import { Menu } from 'antd';
 import { Link, useLocation } from 'react-router';
 
-export const NavMenu = () => {
+export const NavBar = () => {
     const location = useLocation();
     return (
         <Menu theme="dark" selectedKeys={[location.pathname]}>

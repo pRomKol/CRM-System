@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Button, Form, Input } from 'antd';
-import { signUp } from "../../features/auth.api.ts";
+import { signUp } from "../../api/auth.api.ts";
 import {useNavigate} from "react-router";
 
 const layout = {

@@ -1,25 +1,20 @@
 import { useQueryClient } from 'react-query';
-import {InfoType } from "../main/Main.tsx";
 import "./filters.scss";
+import {Info} from "../../types/todos.ts";
+import {Filters, FiltersList} from "../../types/filters.ts";
 
-export type FiltersType = 'inWork' | 'all' | 'completed';
 
-type FilterPropsType = {
-    info: InfoType;
-    setCurrentFilter: (filter: FiltersType) => void;
-    currentFilter: FiltersType;
+type FilterProps = {
+    info: Info;
+    setCurrentFilter: (filter: Filters) => void;
+    currentFilter: Filters;
 };
 
-export type FiltersListType = {
-    name: string;
-    filterName: FiltersType;
-    length: number;
-};
 
-export const Filters = (props: FilterPropsType) => {
+
+export const TodoFiltersList = (props: FilterProps) => {
     const queryClient = useQueryClient();
-
-    const filtersList: FiltersListType[] = [
+    const filtersList: FiltersList[] = [
         {
             name: 'Все',
             filterName: 'all',
@@ -37,9 +32,9 @@ export const Filters = (props: FilterPropsType) => {
         },
     ];
 
-    const changeFilter = (filterName: FiltersType) => {
+    const  changeFilter = async (filterName: Filters) => {
         props.setCurrentFilter(filterName);
-        queryClient.invalidateQueries(['todos', filterName]);
+       await queryClient.invalidateQueries(['todos', filterName]);
     };
 
     return (
