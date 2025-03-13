@@ -1,25 +1,29 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
 import {signIn} from "../../api/auth.api.ts";
 import {Link, useNavigate} from "react-router";
+import {useAuth} from "../../featers/AuthContext.tsx";
 
 export type FieldType = {
     login: string;
     password: string;
 };
 
-export const LoginPage: React.FC = () => {
+export const LoginPage = () => {
     const [error, setError] = useState<string | null>(null)
+    const { loggedIn, setLoggedIn } = useAuth();
     const navigate = useNavigate()
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         try {
             await signIn({ login: values.login, password: values.password });
+            setLoggedIn(true)
             navigate('/');
         }
         catch (erorrrrrrrrrrrrrrr: any){
             console.log(erorrrrrrrrrrrrrrr)
             if(erorrrrrrrrrrrrrrr.response.status === 401){
+                setLoggedIn(false)
                 setError('НЕВЕРНЫЙ логин или проль')
             } else {
                 setError(erorrrrrrrrrrrrrrr.response.data)

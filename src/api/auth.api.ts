@@ -1,42 +1,74 @@
 import axios from 'axios';
-import {FieldType} from "../pages/login/LoginPage.tsx";
+import { FieldType } from "../pages/login/LoginPage.tsx";
 
+let accessToken: string | null = localStorage.getItem('accessToken');
 
-const baseURL = 'https://easydev.club/api/v1';
+const authApiClient = axios.create({
+    baseURL: 'https://easydev.club/api/v1',
+});
+
+authApiClient.interceptors.request.use((config) => {
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+});
 
 type AuthResponse = {
     accessToken: string;
     refreshToken: string;
 };
 
-
-export async function signIn(authData: FieldType): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${baseURL}/auth/signin`, authData);
-        const accessToken = response.data.accessToken;
-        const refreshToken = response.data.refreshToken;
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        return response.data;
-
+function redirectToLogin() {
+    accessToken = null;
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/login';
 }
 
-export async function signUp(authData: any): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${baseURL}/auth/signup`, authData);
-    const accessToken = response.data.accessToken;
-    const refreshToken = response.data.refreshToken;
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+export async function signIn(authData: FieldType): Promise<AuthResponse> {
+    const response = await authApiClient.post<AuthResponse>('/auth/signin', authData);
+    accessToken = response.data.accessToken;
+    localStorage.setItem('refreshToken', response.data.refreshToken);
     return response.data;
 }
 
+export async function signUp(authData: any): Promise<AuthResponse> {
+    const response = await authApiClient.post<AuthResponse>('/auth/signup', authData);
+    accessToken = response.data.accessToken;
+    localStorage.setItem('refreshToken', response.data.refreshToken);
+    return response.data;
+}
 
-
- export async function refreshAccessToken(): Promise<void> {
-    const refreshToken = localStorage.getItem('refreshToken')
-     try {
-         const response = await axios.post(`${baseURL}/auth/refresh`, {refreshToken},)
-         localStorage.setItem('refreshToken', response.data.refreshToken)
-         localStorage.setItem('accessToken', response.data.accessToken)
+export async function refreshAccessToken(): Promise<void> {
+    const refreshToken = localStorage.getItem('refreshToken');
+    try {
+        const response = await authApiClient.post<AuthResponse>('/auth/refresh', { refreshToken });
+        accessToken = response.data.accessToken;
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+    } catch (error) {
+        if (error && error.response.status === 401) {
+            redirectToLogin();
+        } else {
+            throw error;
+        }
     }
-     catch (e){}
- }
+}
+
+export async function getUserProfile(): Promise<any> {
+    if (!accessToken) {
+       await refreshAccessToken()
+        return;
+    }
+
+    try {
+        const response = await authApiClient.get('/user/profile');
+        return response.data;
+    } catch (error) {
+        if (error && error.response.status === 401) {
+            await refreshAccessToken();
+            const response = await authApiClient.get('/user/profile');
+            return response.data;
+        }
+        throw error;
+    }
+}

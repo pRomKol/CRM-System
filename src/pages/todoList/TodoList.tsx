@@ -30,18 +30,18 @@ export const TodoList = () => {
     if (isLoading) {
         return <div>'Loader component'</div>;
     }
-
+    const { data: todos = [], info = {all: 0, inWork: 0, completed: 0} } = data || {};
     return (
         <div>
             <AddTask getTodosByCurrentFilter={refetch} />
             <TodoFiltersList
                 currentFilter={currentFilter}
-                info={data?.info}
+                info={info}
                 setCurrentFilter={setCurrentFilter}
             />
             <TodoContent
                 getTodosByCurrentFilter={refetch}
-                todos={data?.data}
+                todos={todos}
             />
         </div>
     );

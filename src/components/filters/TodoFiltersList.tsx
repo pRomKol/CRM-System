@@ -1,10 +1,13 @@
 import { useQueryClient } from 'react-query';
 import "./filters.scss";
-
-import {Filters, FiltersList} from "../../types/filters.ts";
+import {Filters,} from "../../types/filters.ts";
 import {Info} from "../../types/todos.ts";
 
-
+type FiltersList = {
+    name: string;
+    filterName: Filters;
+    length: number;
+};
 type FilterProps = {
     info: Info;
     setCurrentFilter: (filter: Filters) => void;
