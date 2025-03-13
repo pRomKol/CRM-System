@@ -1,4 +1,3 @@
-import './main.scss';
 import {TasksList} from "../tasksList/TasksList.tsx";
 import {Todo} from "../../types/todos.ts";
 

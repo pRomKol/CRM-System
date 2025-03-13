@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Button, Form, Input, Spin} from 'antd';
 import {signUp} from "../../api/auth.api.ts";
 import {Link} from "react-router-dom";
-import './signUp.styles.scss'
+
 
 const validateMessages = {
     required: '${label} обязательно!',
@@ -133,7 +133,7 @@ export const SignUpPage = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item className='sign-in-button' label={null}>
+                    <Form.Item style={{display:'flex', gap: '3px'}} label={null}>
                         <Button type="primary" htmlType="submit">
                             Registration
                         </Button>

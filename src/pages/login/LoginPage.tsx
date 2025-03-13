@@ -1,38 +1,35 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
-import {signIn} from "../../api/auth.api.ts";
-import {Link, useNavigate} from "react-router";
-import {useAuth} from "../../featers/AuthContext.tsx";
-import {LoginField} from "../../types/fields.ts";
-import {Field} from "react-hook-form";
-
-
+import { signIn } from "../../api/auth.api.ts";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from "../../featers/AuthContext.tsx";
+import { LoginField } from "../../types/fields.ts";
 
 export const LoginPage = () => {
-    const [error, setError] = useState<string | null>(null)
-    const {setLoggedIn } = useAuth();
-    const navigate = useNavigate()
+    const [error, setError] = useState<string | null>(null);
+    const { setLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
     const onFinish: FormProps<LoginField>['onFinish'] = async (values) => {
         try {
             await signIn({ login: values.login, password: values.password });
-            setLoggedIn(true)
+            setLoggedIn(true);
             navigate('/');
-        }
-        catch (erorrrrrrrrrrrrrrr: any){
-            console.log(erorrrrrrrrrrrrrrr)
-            if(erorrrrrrrrrrrrrrr.response.status === 401){
-                setLoggedIn(false)
-                setError('НЕВЕРНЫЙ логин или проль')
+        } catch (error: any) {
+            console.log(error);
+            if (error.response?.status === 401) {
+                setLoggedIn(false);
+                setError('Неверный логин или пароль');
             } else {
-                setError(erorrrrrrrrrrrrrrr.response.data)
+                setError(error.response?.data || 'Произошла ошибка при входе');
             }
-
         }
     };
+
     return (
         <>
-            {error && <div style={{color: 'red'}}>{error}</div>}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
@@ -40,17 +37,16 @@ export const LoginPage = () => {
                 style={{ maxWidth: 600 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-
                 autoComplete="off"
             >
-                <Form.Item<Field>
+                <Form.Item
                     label="Login"
                     name="login"
                     rules={[{ required: true, message: 'Please input your login!' }]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<Field>
+                <Form.Item
                     label="Password"
                     name="password"
                     rules={[{ required: true, message: 'Please input your password!' }]}
@@ -61,16 +57,11 @@ export const LoginPage = () => {
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
-
-                        <Link to='/signUp'>
-                            Registration
-                        </Link>
-
+                    <Link to='/signUp'>
+                        Registration
+                    </Link>
                 </Form.Item>
-
             </Form>
-
         </>
-
     );
 };

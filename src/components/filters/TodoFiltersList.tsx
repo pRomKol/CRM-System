@@ -1,6 +1,8 @@
 import { useQueryClient } from 'react-query';
 import {Filters,} from "../../types/filters.ts";
 import {Info} from "../../types/todos.ts";
+// @ts-ignore
+import './filters.scss'
 
 type FiltersList = {
     name: string;
