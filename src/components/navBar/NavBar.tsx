@@ -9,6 +9,10 @@ export const NavBar = () => {
             label: <Link to="/profile">Profile</Link>,
         },
         {
+            key: '/login',
+            label: <Link to="/login">Login</Link>,
+        },
+        {
             key: '/',
             label: <Link to="/">Todo List</Link>,
         },
