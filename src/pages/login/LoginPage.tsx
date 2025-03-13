@@ -22,7 +22,7 @@ export const LoginPage = () => {
                 setLoggedIn(false);
                 setError('Неверный логин или пароль');
             } else {
-                setError(error.response?.data || 'Произошла ошибка при входе');
+                setError(error.response?.data || 'ошибка при входе');
             }
         }
     };
