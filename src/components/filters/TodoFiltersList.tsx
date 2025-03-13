@@ -1,5 +1,4 @@
 import { useQueryClient } from 'react-query';
-import "./filters.scss";
 import {Filters,} from "../../types/filters.ts";
 import {Info} from "../../types/todos.ts";
 

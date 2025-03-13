@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, Spin } from 'antd';
-import { signUp } from "../../api/auth.api.ts";
-import { useNavigate } from "react-router";
+import {useState} from 'react';
+import {Button, Form, Input, Spin} from 'antd';
+import {signUp} from "../../api/auth.api.ts";
+import {Link} from "react-router-dom";
+import './signUp.styles.scss'
 
 const validateMessages = {
     required: '${label} обязательно!',
@@ -26,11 +27,10 @@ type ValuesType = {
     confirmPassword: string;
 }
 
-export const SignUpPage: React.FC = () => {
+export const SignUpPage = () => {
     const [error, setError] = useState<null | string>(null);
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-
+    const [successMessage, setSuccessMessage] = useState<string | null>()
     const onFinish = async (values: ValuesType) => {
         const formData = {
             email: values.email,
@@ -43,9 +43,11 @@ export const SignUpPage: React.FC = () => {
         setLoading(true);
         try {
             await signUp(formData);
-            navigate('/login');
+            setSuccessMessage("Пользователь зарегистрирован упешно, Для входа нажмине sign in")
+            setError(null)
         } catch (error: any) {
-            setError(error.response?.data?.message || 'Произошла ошибка при регистрации');
+            setError(error.response.data);
+
         } finally {
             setLoading(false);
         }
@@ -54,6 +56,7 @@ export const SignUpPage: React.FC = () => {
     return (
         <>
             <Spin spinning={loading}>
+
                 <Form
                     name="registration-form"
                     onFinish={onFinish}
@@ -130,13 +133,17 @@ export const SignUpPage: React.FC = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label={null}>
+                    <Form.Item className='sign-in-button' label={null}>
                         <Button type="primary" htmlType="submit">
                             Registration
                         </Button>
+                        {successMessage && <Link style={{fontSize: '60px'}} to='/login'>
+                            Sign in
+                        </Link> }
                     </Form.Item>
                 </Form>
                 {error && <div style={{ color: 'red', marginTop: 16 }}>{error}</div>}
+                {successMessage && <div style={{color: 'green'}}>{successMessage}</div>}
             </Spin>
         </>
     );

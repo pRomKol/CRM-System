@@ -61,10 +61,13 @@ export const LoginPage = () => {
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
+
+                        <Link to='/signUp'>
+                            Registration
+                        </Link>
+
                 </Form.Item>
-                <Button>
-                    <Link to='/signUp'>Зарегать</Link>
-                </Button>
+
             </Form>
 
         </>

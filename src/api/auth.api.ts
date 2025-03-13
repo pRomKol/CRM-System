@@ -46,7 +46,7 @@ export async function refreshAccessToken(): Promise<void> {
         const response = await authApiClient.post<AuthResponse>('/auth/refresh', { refreshToken });
         accessToken = response.data.accessToken;
         localStorage.setItem('refreshToken', response.data.refreshToken);
-    } catch (error) {
+    } catch (error: any) {
         if (error && error.response.status === 401) {
             redirectToLogin();
         } else {
@@ -64,7 +64,7 @@ export async function getUserProfile(): Promise<any> {
     try {
         const response = await authApiClient.get('/user/profile');
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
         if (error && error.response.status === 401) {
             await refreshAccessToken();
             const response = await authApiClient.get('/user/profile');
