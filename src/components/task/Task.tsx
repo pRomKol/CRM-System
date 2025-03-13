@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import { deleteTodo, updateTodo } from "../../api/todo.api.ts";
-import './task.styles.scss';
 import { Button, Checkbox, CheckboxProps, Form, Input, notification } from "antd";
 
 type TaskProps = {
@@ -62,7 +61,7 @@ export const Task = (props: TaskProps) => {
     };
 
     return (
-        <li key={props.id} className="todo-item">
+        <li key={props.id} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px'}}>
             <Checkbox
                 onChange={toggleCheckboxHandler}
                 checked={props.isDone}

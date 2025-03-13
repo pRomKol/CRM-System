@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, Spin } from 'antd';
-import { signUp } from "../../api/auth.api.ts";
-import { useNavigate } from "react-router";
+import {useState} from 'react';
+import {Button, Form, Input, Spin} from 'antd';
+import {signUp} from "../../api/auth.api.ts";
+import {Link} from "react-router-dom";
+
 
 const validateMessages = {
     required: '${label} обязательно!',
@@ -26,11 +27,10 @@ type ValuesType = {
     confirmPassword: string;
 }
 
-export const SignUpPage: React.FC = () => {
+export const SignUpPage = () => {
     const [error, setError] = useState<null | string>(null);
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-
+    const [successMessage, setSuccessMessage] = useState<string | null>()
     const onFinish = async (values: ValuesType) => {
         const formData = {
             email: values.email,
@@ -43,9 +43,11 @@ export const SignUpPage: React.FC = () => {
         setLoading(true);
         try {
             await signUp(formData);
-            navigate('/login');
+            setSuccessMessage("Пользователь зарегистрирован упешно, Для входа нажмине sign in")
+            setError(null)
         } catch (error: any) {
-            setError(error.response?.data?.message || 'Произошла ошибка при регистрации');
+            setError(error.response.data);
+
         } finally {
             setLoading(false);
         }
@@ -54,6 +56,7 @@ export const SignUpPage: React.FC = () => {
     return (
         <>
             <Spin spinning={loading}>
+
                 <Form
                     name="registration-form"
                     onFinish={onFinish}
@@ -108,7 +111,7 @@ export const SignUpPage: React.FC = () => {
                                 },
                             }),
                         ]}
-                        hasFeedback
+
                     >
                         <Input.Password />
                     </Form.Item>
@@ -123,20 +126,24 @@ export const SignUpPage: React.FC = () => {
                     </Form.Item>
                     <Form.Item
                         name="phone"
-                        label="Телефон"
+                        label="Phone"
                         rules={[
                             { required: true, pattern: /^\+?[0-9]{10,15}$/, message: 'Должен быть допустимым номером телефона' },
                         ]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label={null}>
+                    <Form.Item style={{display:'flex', gap: '3px'}} label={null}>
                         <Button type="primary" htmlType="submit">
-                            Зарегистрироваться
+                            Registration
                         </Button>
+                        {successMessage && <Link style={{fontSize: '60px'}} to='/login'>
+                            Sign in
+                        </Link> }
                     </Form.Item>
                 </Form>
                 {error && <div style={{ color: 'red', marginTop: 16 }}>{error}</div>}
+                {successMessage && <div style={{color: 'green'}}>{successMessage}</div>}
             </Spin>
         </>
     );

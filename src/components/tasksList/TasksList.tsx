@@ -1,4 +1,3 @@
-import './task.scss';
 import {Task} from "../task/Task.tsx";
 import {Todo} from "../../types/todos.ts";
 
@@ -11,7 +10,7 @@ type TasksListProps = {
 
 export const TasksList = (props: TasksListProps) => {
 return (
-        <ul className="task-list">
+        <ul style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '10px'}}>
             {props.todos.map((todo) => (
                 <Task
                     key={todo.id}
