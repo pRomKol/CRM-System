@@ -4,17 +4,16 @@ import { Button, Form, Input } from 'antd';
 import {signIn} from "../../api/auth.api.ts";
 import {Link, useNavigate} from "react-router";
 import {useAuth} from "../../featers/AuthContext.tsx";
+import {LoginField} from "../../types/fields.ts";
+import {Field} from "react-hook-form";
 
-export type FieldType = {
-    login: string;
-    password: string;
-};
+
 
 export const LoginPage = () => {
     const [error, setError] = useState<string | null>(null)
-    const { loggedIn, setLoggedIn } = useAuth();
+    const {setLoggedIn } = useAuth();
     const navigate = useNavigate()
-    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+    const onFinish: FormProps<LoginField>['onFinish'] = async (values) => {
         try {
             await signIn({ login: values.login, password: values.password });
             setLoggedIn(true)
@@ -44,14 +43,14 @@ export const LoginPage = () => {
 
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<Field>
                     label="Login"
                     name="login"
                     rules={[{ required: true, message: 'Please input your login!' }]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<FieldType>
+                <Form.Item<Field>
                     label="Password"
                     name="password"
                     rules={[{ required: true, message: 'Please input your password!' }]}

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FieldType } from "../pages/login/LoginPage.tsx";
+import {LoginField} from "../types/fields.ts";
+
 
 let accessToken: string | null = localStorage.getItem('accessToken');
 
@@ -25,7 +26,7 @@ function redirectToLogin() {
     window.location.href = '/login';
 }
 
-export async function signIn(authData: FieldType): Promise<AuthResponse> {
+export async function signIn(authData: LoginField): Promise<AuthResponse> {
     const response = await authApiClient.post<AuthResponse>('/auth/signin', authData);
     accessToken = response.data.accessToken;
     localStorage.setItem('refreshToken', response.data.refreshToken);

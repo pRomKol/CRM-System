@@ -108,7 +108,7 @@ export const SignUpPage: React.FC = () => {
                                 },
                             }),
                         ]}
-                        hasFeedback
+
                     >
                         <Input.Password />
                     </Form.Item>
@@ -123,7 +123,7 @@ export const SignUpPage: React.FC = () => {
                     </Form.Item>
                     <Form.Item
                         name="phone"
-                        label="Телефон"
+                        label="Phone"
                         rules={[
                             { required: true, pattern: /^\+?[0-9]{10,15}$/, message: 'Должен быть допустимым номером телефона' },
                         ]}
@@ -132,7 +132,7 @@ export const SignUpPage: React.FC = () => {
                     </Form.Item>
                     <Form.Item label={null}>
                         <Button type="primary" htmlType="submit">
-                            Зарегистрироваться
+                            Registration
                         </Button>
                     </Form.Item>
                 </Form>
