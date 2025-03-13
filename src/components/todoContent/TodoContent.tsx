@@ -1,24 +1,15 @@
 import './main.scss';
 import {TasksList} from "../tasksList/TasksList.tsx";
+import {Todo} from "../../types/todos.ts";
 
-export type TodoType = {
-    title?: string;
-    id: number;
-    isDone: boolean;
-};
 
-export type InfoType = {
-    all: number;
-    completed: number;
-    inWork: number;
-}
 
 type MainSectionPropsType = {
-    todos: TodoType[];
+    todos: Todo[];
     getTodosByCurrentFilter: () => void
 };
 
-export const Main = (props: MainSectionPropsType) => {
+export const TodoContent = (props: MainSectionPropsType) => {
     return (
         <>
             <TasksList

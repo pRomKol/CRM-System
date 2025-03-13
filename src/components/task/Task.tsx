@@ -1,106 +1,112 @@
-import { useState } from 'react';
-import { Button } from "../button/Button.tsx";
-import { deleteTodo, updateTodo } from "../../features/todo.api.ts";
+import {useState} from 'react';
+import { deleteTodo, updateTodo } from "../../api/todo.api.ts";
 import './task.styles.scss';
-import { Input } from "antd";
+import { Button, Checkbox, CheckboxProps, Form, Input, notification } from "antd";
 
-type TaskPropsType = {
+type TaskProps = {
     id: number;
     isDone: boolean;
-    title: string | undefined;
+    title: string;
     getTodosByCurrentFilter: () => void;
 };
 
-export const Task = (props: TaskPropsType) => {
-    const [editingId, setEditingId] = useState<number | null>(null);
-    const [editedTitle, setEditedTitle] = useState<string | undefined>('');
-    const [error, setError] = useState<string | null>(null);
+export const Task = (props: TaskProps) => {
+    const [editMode, setEditMode] = useState(false);
+    const [form] = Form.useForm();
 
-    const startEditing = (id: number, title: string | undefined) => {
-        setEditingId(id);
-        setEditedTitle(title);
-        setError(null);
-    };
-
-    const deleteTodoHandler = async (id: number) => {
+    const deleteHandler = async () => {
         try {
-            await deleteTodo(id);
+            await deleteTodo(props.id);
             props.getTodosByCurrentFilter();
         } catch (error) {
-            console.error("чет не то", error);
+            notification.error({
+                message: 'Error',
+                description: 'Failed to delete the task. Please try again.',
+            });
         }
     };
 
-    const refactorTodoHandler = async (id: number, title: string | undefined, isDone: boolean) => {
-        if (title && (title.length < 2 || title.length > 64)) {
-            setError('от 2 до 64 символов.');
-            return;
-        }
-
+    const saveChangesHandler = async (values: { title: string }) => {
         try {
-            await updateTodo(id, { isDone, title });
+            await updateTodo(props.id, { isDone: props.isDone, title: values.title });
             props.getTodosByCurrentFilter();
-            setEditingId(null);
-            setEditedTitle('');
-            setError(null);
+            setEditMode(false);
         } catch (error) {
-            console.error('та за шо', error);
+            notification.error({
+                message: 'Error',
+                description: 'Failed to save changes. Please try again.',
+            });
         }
+    };
+
+    const toggleCheckboxHandler: CheckboxProps['onChange'] = async (e) => {
+        try {
+            await updateTodo(props.id, { isDone: e.target.checked, title: props.title });
+            props.getTodosByCurrentFilter();
+        } catch (error) {
+            notification.error({
+                message: 'Error',
+                description: 'Failed to update task status. Please try again.',
+            });
+        }
+    };
+
+    const editStateHandler = () => {
+        setEditMode(true);
+        form.setFieldsValue({ title: props.title });
+    };
+
+    const handleCancelClick = () => {
+        setEditMode(false);
+        form.resetFields();
     };
 
     return (
-        <>
-            <li key={props.id} className="todo-item">
-                <input
-                    onChange={() => refactorTodoHandler(props.id, props.title, !props.isDone)}
-                    checked={props.isDone}
-                    type="checkbox"
-                />
-                <div onDoubleClick={() => startEditing(props.id, props.title)}>
-                    {editingId === props.id ? (
-                        <Input
-                            value={editedTitle}
-                            onChange={(e) => {
-                                setEditedTitle(e.target.value);
-                                setError(null);
-                            }}
-                        />
-                    ) : (
-                        <h3>{props.title}</h3>
-                    )}
-                </div>
-                <div className="buttons">
-                    {!editingId ? (
-                        <Button
-                            title='+'
-                            onClick={() => startEditing(props.id, props.title)}
-                        />
-                    ) : editingId === props.id ? null : (
-                        <Button
-                            title='+'
-                            onClick={() => startEditing(props.id, props.title)}
-                        />
-                    )}
-                    {editingId === props.id ? (
-                        <>
-                            <Button
-                                title='save'
-                                onClick={() => refactorTodoHandler(props.id, editedTitle, props.isDone)}
-                            />
-                            <Button
-                                title='cancel'
-                                onClick={() => {
-                                    setEditingId(null);
-                                    setEditedTitle('');
-                                    setError(null);
-                                }}
-                            />
-                        </>
-                    ) : null}
-                    <Button title='X' onClick={() => deleteTodoHandler(props.id)} />
-                </div>
-                {error && <div className="error-message">{error}</div>}
-            </li>
-        </>
+        <li key={props.id} className="todo-item">
+            <Checkbox
+                onChange={toggleCheckboxHandler}
+                checked={props.isDone}
+            />
+            <div onDoubleClick={editStateHandler}>
+                {editMode ? (
+                    <Form
+                        form={form}
+                        onFinish={saveChangesHandler}
+                        initialValues={{ title: props.title }}
+                    >
+                        <Form.Item
+                            name="title"
+                            rules={[
+                                { required: true, message: 'Title is required!' },
+                                { min: 2, message: 'Must be more than 2 characters!' },
+                                { max: 64, message: 'Must be less than 64 characters!' }
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Save
+                            </Button>
+                            <Button onClick={handleCancelClick}>
+                                Cancel
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                ) : (
+                    <h3>{props.title}</h3>
+                )}
+            </div>
+            <div className="buttons">
+                {!editMode && (
+                    <Button onClick={editStateHandler}>
+                        Edit
+                    </Button>
+                )}
+                <Button onClick={deleteHandler}>
+                    Delete
+                </Button>
+            </div>
+        </li>
     );
 };

@@ -1,18 +1,20 @@
 import './task.scss';
 import {Task} from "../task/Task.tsx";
-import {TodoType} from "../main/Main.tsx";
+import {Todo} from "../../types/todos.ts";
 
-type TasksListPropsType = {
-    todos: TodoType[]
+
+type TasksListProps = {
+    todos: Todo[]
     getTodosByCurrentFilter:() => void
 }
 
 
-export const TasksList = (props: TasksListPropsType) => {
+export const TasksList = (props: TasksListProps) => {
 return (
         <ul className="task-list">
             {props.todos.map((todo) => (
                 <Task
+                    key={todo.id}
                     id={todo.id}
                     isDone={todo.isDone}
                     title={todo.title}
